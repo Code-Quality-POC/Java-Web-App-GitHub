@@ -85,4 +85,33 @@ public class Insecure {
     processParam(myInput);
     storeData(myInput);                   // store data after sanitizing --> No injection vulnerability 
   }
+  
+  // Maintainability issue: Unused private method
+  private void unusedMethod() {
+      System.out.println("This is never called");
+  }
+  
+  // Maintainability issue: Method with too many parameters
+  public void createUser(String username, String password, String email, String firstName, 
+                        String lastName, String phone, String address, int age, boolean active) {
+      // Maintainability issue: Empty method implementation
+  }
+  
+  // Reliability issue: Method that swallows exception
+  public void riskyOperation() {
+      try {
+          // Some operation
+          int result = 10 / 0;
+      } catch (Exception e) {
+          // Reliability issue: Empty catch block - exception swallowed
+      }
+  }
+  
+  // Maintainability issue: Commented out code
+  /*
+  public void oldMethod() {
+      String data = "old implementation";
+      System.out.println(data);
+  }
+  */
 }
