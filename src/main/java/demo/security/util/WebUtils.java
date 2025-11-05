@@ -27,7 +27,9 @@ public class WebUtils {
             } finally {
                 try {
                     // Reliability issue: potential NPE if socket creation failed
-                    socket.close();
+                    if (socket != null) {
+                        socket.close();
+                    }
                 } catch (IOException e) {
                     // Reliability issue: Empty catch block - swallows exception
                     // TODO - Handle this
