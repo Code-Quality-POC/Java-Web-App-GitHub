@@ -9,6 +9,9 @@ import java.nio.charset.StandardCharsets;
 
 public class WebUtils {
 
+    // Externalized default IP address; can override with -Ddemo.ip.address=...
+    private static final String DEFAULT_IP = System.getProperty("demo.ip.address", "10.40.1.1");
+
     public void addCookie(HttpServletResponse response, String name, String value) {
         Cookie c = new Cookie(name, value);
         response.addCookie(c);
@@ -17,7 +20,7 @@ public class WebUtils {
     public static void getSessionId(HttpServletRequest request){
         String sessionId = request.getRequestedSessionId();
         if (sessionId != null){
-            String ip = "10.40.1.1";
+            String ip = DEFAULT_IP;
             Socket socket = null;
             try {
                 socket = new Socket(ip, 6667);
@@ -27,7 +30,9 @@ public class WebUtils {
             } finally {
                 try {
                     // Reliability issue: potential NPE if socket creation failed
-                    socket.close();
+                    if (socket != null) {
+                        socket.close();
+                    }
                 } catch (IOException e) {
                     // Reliability issue: Empty catch block - swallows exception
                     // TODO - Handle this
