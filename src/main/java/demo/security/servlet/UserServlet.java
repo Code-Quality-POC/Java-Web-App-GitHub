@@ -68,4 +68,23 @@ public class UserServlet extends HttpServlet {
             throw new RuntimeException(e);
         }
     }
+    
+    // Maintainability issue: Duplicate string literals
+    private String buildResponse(String type) {
+        String html = "<html><body>";
+        if (type.equals("success")) {
+            html = html + "<h1>Success</h1></body></html>";
+        } else if (type.equals("error")) {
+            html = html + "<h1>Error</h1></body></html>";
+        } else {
+            html = html + "<h1>Unknown</h1></body></html>";
+        }
+        return html;
+    }
+    
+    // Reliability issue: Collection.toArray() without proper type
+    private Object[] convertList(List<String> items) {
+        // Reliability issue: Returning Object[] instead of String[]
+        return items.toArray();
+    }
 }

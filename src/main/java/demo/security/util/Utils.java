@@ -15,6 +15,8 @@ import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.*;
+import java.util.HashMap; // Maintainability issue: Unused import
+import java.util.Map; // Maintainability issue: Unused import
 
 public class Utils {
 
@@ -134,5 +136,63 @@ public class Utils {
         // Maintainability issue: Unreachable code
         // System.out.println("This will never execute");
         // return 0;
+    }
+    
+    // Maintainability issue: Overly complex method with high cognitive complexity
+    public static boolean validateInput(String input, String type, boolean strict, int minLength, int maxLength) {
+        if (input == null) {
+            if (strict == true) { // Redundant comparison
+                return false;
+            } else {
+                if (type.equals("optional")) {
+                    return true;
+                } else {
+                    if (minLength == 0) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            }
+        } else {
+            if (input.length() < minLength) {
+                if (strict == true) {
+                    return false;
+                } else {
+                    if (type.equals("flexible")) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            } else if (input.length() > maxLength) {
+                return false;
+            } else {
+                if (type.equals("strict")) {
+                    if (input.matches("[a-zA-Z0-9]+")) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return true;
+                }
+            }
+        }
+    }
+    
+    // Reliability issue: Using size() instead of isEmpty()
+    public static boolean hasElements(java.util.List<String> list) {
+        // Maintainability issue: Should use isEmpty() instead of size() > 0
+        if (list.size() > 0) {
+            return true;
+        }
+        return false;
+    }
+    
+    // Maintainability issue: Redundant cast
+    public static String convertToString(Object obj) {
+        String str = (String) obj.toString(); // Redundant cast - toString() already returns String
+        return str;
     }
 }

@@ -8,9 +8,14 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.ArrayList; // Maintainability issue: Unused import
 
 @WebServlet("/products")
 public class ProductServlet extends HttpServlet {
+    
+    // Maintainability issue: Redundant initialization to default value
+    private boolean initialized = false;
+    private String status = null;
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -190,6 +195,42 @@ public class ProductServlet extends HttpServlet {
             out.print("<html><body><h1>No action specified</h1></body></html>");
             out.close();
         }
+    }
+    
+    // Maintainability issue: Inefficient string concatenation in loop
+    private String buildProductList(List<String> products) {
+        String result = "";
+        for (String product : products) {
+            // Reliability issue: Should use StringBuilder for efficiency
+            result = result + product + ",";
+        }
+        return result;
+    }
+    
+    // Maintainability issue: Identical if/else branches
+    private int calculateStock(int quantity) {
+        if (quantity > 100) {
+            return 100;
+        } else {
+            return 100; // Same as if branch
+        }
+    }
+    
+    // Maintainability issue: Redundant boolean literal
+    private boolean isAvailable(int stock) {
+        if (stock > 0) {
+            return true;
+        } else {
+            return false; // Could just return stock > 0
+        }
+    }
+    
+    // Reliability issue: Parameter reassignment
+    private void processProductId(String productId) {
+        // Reliability issue: Reassigning parameter makes code harder to understand
+        productId = productId.trim();
+        productId = productId.toUpperCase();
+        // Use productId...
     }
 }
 
