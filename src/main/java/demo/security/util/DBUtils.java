@@ -15,6 +15,7 @@ public class DBUtils {
 
     public List<String> findUsers(String user) throws Exception {
         String query = "SELECT userid FROM users WHERE username = '" + user  + "'";
+        // Reliability issue: Statement and ResultSet not closed - resource leak
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(query);
         List<String> users = new ArrayList<String>();
@@ -26,6 +27,7 @@ public class DBUtils {
 
     public List<String> findItem(String itemId) throws Exception {
         String query = "SELECT item_id FROM items WHERE item_id = '" + itemId  + "'";
+        // Reliability issue: Statement and ResultSet not closed - resource leak
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(query);
         List<String> items = new ArrayList<String>();
@@ -33,5 +35,22 @@ public class DBUtils {
             items.add(resultSet.getString(0));
         }
         return items;
+    }
+    
+    // Reliability issue: Method returns null instead of empty list or throwing exception
+    public List<String> findOrders(String orderId) {
+        try {
+            String query = "SELECT order_id FROM orders WHERE order_id = '" + orderId  + "'";
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+            List<String> orders = new ArrayList<String>();
+            while (resultSet.next()){
+                orders.add(resultSet.getString(0));
+            }
+            return orders;
+        } catch (Exception e) {
+            // Reliability issue: Returning null on error instead of proper error handling
+            return null;
+        }
     }
 }
