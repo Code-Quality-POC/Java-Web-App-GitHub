@@ -14,7 +14,6 @@ public class ValidationHelper {
     private static final int MAX_RETRIES = 5;
     
     // Reliability issue: Mutable static field
-    private static List<String> validationErrors = new ArrayList<>();
     
     // Maintainability issue: God method with too many responsibilities
     public static boolean validateUserInput(String username, String email, String password, 
