@@ -23,11 +23,14 @@ public class UserServlet extends HttpServlet {
             List<String> users = db.findUsers(user);
             response.setContentType("text/html");
             PrintWriter out = response.getWriter();
+            // Reliability issue: Potential null pointer exception - users could be null
             users.forEach((result) -> {
                         out.print("<h2>User "+result+ "</h2>");
             });
+            // Reliability issue: Resource not closed properly in catch block
             out.close();
         } catch (Exception e) {
+            // Reliability issue: Generic exception catch - swallows specific exceptions
             throw new RuntimeException(e);
         }
 

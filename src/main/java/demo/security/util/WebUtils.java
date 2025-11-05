@@ -26,11 +26,38 @@ public class WebUtils {
                 throw new RuntimeException(e);
             } finally {
                 try {
+                    // Reliability issue: potential NPE if socket creation failed
                     socket.close();
                 } catch (IOException e) {
+                    // Reliability issue: Empty catch block - swallows exception
                     // TODO - Handle this
                 }
             }
         }
+    }
+    
+    // Maintainability issue: Magic numbers throughout method
+    public static int calculateDiscount(int price, int userType) {
+        // Maintainability issue: Magic numbers 1, 2, 3 instead of named constants
+        if (userType == 1) {
+            return price * 90 / 100; // 10% discount
+        } else if (userType == 2) {
+            return price * 80 / 100; // 20% discount
+        } else if (userType == 3) {
+            return price * 70 / 100; // 30% discount
+        }
+        return price;
+    }
+    
+    // Reliability issue: Potential division by zero
+    public static double calculateAverage(int total, int count) {
+        // Reliability issue: No check for count being zero
+        return total / count;
+    }
+    
+    // Reliability issue: Array access without bounds checking
+    public static String getFirstElement(String[] array) {
+        // Reliability issue: No null or length check
+        return array[0];
     }
 }

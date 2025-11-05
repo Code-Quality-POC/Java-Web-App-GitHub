@@ -49,4 +49,90 @@ public class Utils {
 
         cipher.init(Cipher.ENCRYPT_MODE, keySpec, gcmSpec); // Noncompliant
     }
+    
+    // Maintainability issue: Long method with deep nesting and code duplication
+    public static String processUserData(String data, int type, boolean validate, String format) {
+        // Maintainability issue: Magic numbers
+        if (type == 1) {
+            if (validate) {
+                if (format != null) {
+                    if (format.equals("json")) {
+                        // Maintainability issue: Deep nesting (4 levels)
+                        if (data != null && data.length() > 0) {
+                            if (data.startsWith("{")) {
+                                // Process JSON
+                                return data.toUpperCase();
+                            } else {
+                                return null;
+                            }
+                        }
+                    } else if (format.equals("xml")) {
+                        if (data != null && data.length() > 0) {
+                            if (data.startsWith("<")) {
+                                return data.toUpperCase();
+                            } else {
+                                return null;
+                            }
+                        }
+                    }
+                }
+            }
+        } else if (type == 2) {
+            if (validate) {
+                if (format != null) {
+                    if (format.equals("json")) {
+                        if (data != null && data.length() > 0) {
+                            if (data.startsWith("{")) {
+                                // Maintainability issue: Code duplication
+                                return data.toLowerCase();
+                            } else {
+                                return null;
+                            }
+                        }
+                    } else if (format.equals("xml")) {
+                        if (data != null && data.length() > 0) {
+                            if (data.startsWith("<")) {
+                                return data.toLowerCase();
+                            } else {
+                                return null;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
+    
+    // Reliability issue: Unchecked cast
+    @SuppressWarnings("unchecked")
+    public static <T> T castObject(Object obj) {
+        // Reliability issue: Unchecked cast can cause ClassCastException at runtime
+        return (T) obj;
+    }
+    
+    // Reliability issue: Returns null on error
+    public static File readFile(String path) {
+        try {
+            File file = new File(path);
+            if (file.exists()) {
+                return file;
+            }
+        } catch (Exception e) {
+            // Reliability issue: Empty catch block
+        }
+        return null;
+    }
+    
+    // Maintainability issue: Dead code / unreachable code
+    public static int calculate(int x) {
+        if (x > 0) {
+            return x * 2;
+        } else {
+            return x * 3;
+        }
+        // Maintainability issue: Unreachable code
+        // System.out.println("This will never execute");
+        // return 0;
+    }
 }
